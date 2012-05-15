@@ -1,8 +1,9 @@
 doctype html
 html
   head
-    title Travis CI Admin
-    link href="/css/bootstrap.min.css" rel="stylesheet"
+    title Travis Admin
+    link href="/css/bootstrap.min.css" rel="stylesheet" value=@repo_name
+    link href="/css/admin.css" rel="stylesheet" value=@login
     link href="/css/bootstrap-responsive.min.css" rel="stylesheet"
 
   body
@@ -10,13 +11,16 @@ html
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
+          a.brand href="/" Travis Admin
           ul.nav
             li class="#{"active" if request.path_info == '/'}"
               a href="/" Overview
-            li class="#{"active" if request.path_info.start_with? '/repos/'}"
-              a href="/repos/" Repo Admin
+            li class="#{"active" if request.path_info.start_with? '/repo/'}"
+              a href="/repo/" Repo Admin
 
-    = yield
+    .container#page
+      == @flash.to_s
+      == yield
 
     script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
     script src="/js/bootstrap.min.js"

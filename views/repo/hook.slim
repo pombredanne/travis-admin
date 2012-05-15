@@ -1,0 +1,57 @@
+- if hook['new']
+  .span12
+    == slim :"repo/details"
+
+- service = settings.services[hook['name']]
+
+.span4
+  form method='post'
+    input type='hidden' name='token' value=@token
+    - if hook['new']
+      input type='hidden' name='repo_name' value=@repo_name
+      input type='hidden' name='return_to' value=params[:return_to]
+    - else
+      input type='hidden' name='hook' value=hook['_links']['self']['href']
+      input type='hidden' name='return_to' value=request.fullpath
+    .row
+      .span2
+        h3= service[:title]
+      .span2
+        - unless hook['new']
+          a.pull-right.btn-mini.btn-info href="#{hook['_links']['self']['href']}?access_token=#{@token}" ##{hook['id']}
+    .row
+      .span4
+        - service[:schema].each do |type, key|
+          .row
+            .span2
+              label for="config[#{key}]"= key.split('_').map(&:capitalize).join(" ").gsub(/ssl|url/i) { |s| s.upcase }
+            .span2
+              - if type == 'boolean'
+                select.span2 name="config[#{key}]"
+                  option selected=hook['config'][key].to_i==1 value=1 On
+                  option selected=hook['config'][key].to_i==0 value=0 Off
+              - else
+                input.span2 name="config[#{key}]" value=hook['config'][key]
+    .row
+      - service[:events].each do |event|
+        .span2
+          label.checkbox
+            input type="checkbox" name="active" checked=hook['events'].include?(event) <tt>#{event}</tt> events
+    .row
+      .span1
+        label.checkbox
+          input type="checkbox" name="active" checked=hook['active'] active
+      .span3
+        .pull-right
+          label
+            - if hook['new']
+              input.btn.btn-mini.btn-inverse type='submit' value="Create" formaction='/repo/create_hook'
+            - else
+              .btn-toolbar
+                .btn-group
+                  input.btn.btn-mini type='submit' value="Convert" formaction='/repo/convert_hook' formnovalidate="formnovalidate" disabled=hook['name']!='travis'
+                  input.btn.btn-mini type='submit' value="Test" formaction='/repo/test_hook' formnovalidate="formnovalidate"
+                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction='/repo/update_hook'
+                .btn-group
+                  input.btn.btn-mini.btn-danger type='submit' value="Delete" formaction='/repo/delete_hook' formnovalidate="formnovalidate"
+  p &nbsp;
