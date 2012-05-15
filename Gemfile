@@ -1,11 +1,17 @@
 source :rubygems
+ruby '1.9.3'
 
-group :server do
-  gem 'sinatra',          github: 'sinatra'
-  gem 'sinatra-contrib',  github: 'sinatra/sinatra-contrib'
-  gem 'puma',             github: 'puma'
-end
+gem 'sinatra',          github: 'sinatra',                 branch: 'master'
+gem 'sinatra-contrib',  github: 'sinatra/sinatra-contrib', branch: 'master'
+gem 'puma',             github: 'puma',                    branch: 'master'
+gem 'gh',               github: 'rkh/gh',                  branch: 'master'
 
-group :templates do
-  gem 'slim'
-end
+gem 'addressable'
+gem 'sequel'
+gem 'pg'
+
+gem 'rack-ssl'
+
+gem 'slim'
+gem 'rdiscount'
+
