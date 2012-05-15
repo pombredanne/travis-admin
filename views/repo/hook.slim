@@ -2,7 +2,7 @@
   .span12
     == slim :"repo/details"
 
-- service = settings.services[hook['name']]
+- service = service_for hook
 
 .span4
   form method='post'
