@@ -20,6 +20,12 @@
       .span2
         - unless hook['new']
           a.pull-right.btn-mini.btn-info href="#{hook['_links']['self']['href']}?access_token=#{@token}" ##{hook['id']}
+    - unless hook['new']
+      .row
+        .span4
+          .alert class=alert_for_status(hook['last_response']['status'])
+            strong Last Response: 
+            = hook['last_response']['status']
     .row
       .span4
         - service[:schema].each do |type, key|
