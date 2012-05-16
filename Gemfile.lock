@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 629e9025e777a031751ac1e03ca44bba467e4a78
+  revision: 6c379514185c6c4d886e82e0f49ba193e6753d64
   branch: master
   specs:
     gh (0.3.0)
