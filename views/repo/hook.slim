@@ -25,7 +25,10 @@
         .span4
           .alert class=alert_for_status(hook['last_response']['status'])
             strong Last Response: 
-            = hook['last_response']['status']
+            - if hook['last_response']['message'].empty?
+            = hook['last_response']['status'].gsub(/^ok$/, 'OK')
+            - else
+              = hook['last_response']['message']
     .row
       .span4
         - service[:schema].each do |type, key|
