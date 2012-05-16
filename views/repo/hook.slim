@@ -40,6 +40,8 @@
                 select.span2 name="config[#{key}]"
                   option selected=hook['config'][key].to_i==1 value=1 On
                   option selected=hook['config'][key].to_i==0 value=0 Off
+              - elsif hook['name'] != 'travis' and key == 'password' || key == 'token' || key == 'secret'
+                input.span2 name="config[#{key}]" value=hook['config'][key] type='password'
               - else
                 input.span2 name="config[#{key}]" value=hook['config'][key]
     .row
