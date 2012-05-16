@@ -1983,7 +1983,18 @@
   },
   {
     "supported_events": [
-      "push"
+      "push",
+      "issues",
+      "issue_comment",
+      "commit_comment",
+      "pull_request",
+      "gollum",
+      "watch",
+      "download",
+      "fork",
+      "fork_apply",
+      "member",
+      "public"
     ],
     "title": "Travis",
     "schema": [
