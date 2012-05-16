@@ -25,7 +25,7 @@
         .span4
           .alert class=alert_for_status(hook['last_response']['status'])
             strong Last Response: 
-            - if hook['last_response']['message'].empty?
+            - if hook['last_response']['message'].to_s.empty?
             = hook['last_response']['status'].gsub(/^ok$/, 'OK')
             - else
               = hook['last_response']['message']
