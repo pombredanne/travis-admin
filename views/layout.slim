@@ -2,11 +2,17 @@ doctype html
 html
   head
     title Travis Admin
-    link href="/css/bootstrap.min.css" rel="stylesheet" value=@repo_name
-    link href="/css/admin.css" rel="stylesheet" value=@login
-    link href="/css/bootstrap-responsive.min.css" rel="stylesheet"
 
-  body
+    link href="/css/bootstrap.min.css" rel="stylesheet"
+    link href="/css/admin.css" rel="stylesheet"
+    link href="/css/bootstrap-responsive.min.css" rel="stylesheet"
+    link href="/css/prettify.css" rel="stylesheet"
+
+    script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+    script src="/js/bootstrap.min.js"
+    script src="/js/prettify.js"
+
+  body onload="prettyPrint()"
 
     .navbar.navbar-fixed-top
       .navbar-inner
@@ -17,10 +23,9 @@ html
               a href="/" Overview
             li class="#{"active" if request.path_info.start_with? '/repo/'}"
               a href="/repo/" Repo Admin
+            li class="#{"active" if request.path_info.start_with? '/gh/'}"
+              a href="/gh/" GH Console
 
     .container#page
       == @flash.to_s
       == yield
-
-    script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
-    script src="/js/bootstrap.min.js"

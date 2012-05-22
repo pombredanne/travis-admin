@@ -1,0 +1,15 @@
+.row
+  .span12
+    form.well.form-inline method="get" action="/gh/"
+      input.span2 type="text" name="user" pattern="\w+" placeholder="GitHub user (optional)" value=params[:user]
+      input.span2 type="text" name="command" placeholder="GitHub user (optional)" value=params[:command] required="required"
+      input.span7 type="text" name="key" placeholder="Key (optional, separate by space or something)" value=params[:key]
+      input.span1.offset4.btn.btn-primary type="submit" value="run"
+.row
+  .span8
+    pre.prettyprint.linenums.lang-js.pre-scrollable
+      = display_response @output if @output
+  .span4
+    pre.prettyprint.pre-scrollable
+      - @events.each do |event|
+        = "#{event[:verb].upcase}  #{event[:url]}\n"
