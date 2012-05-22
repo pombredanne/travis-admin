@@ -1,9 +1,9 @@
 .row
   .span12
     form.well.form-inline method="get" action="/gh/"
-      input.span1 type="text" name="user" pattern="\w+" placeholder="GitHub user (optional)" value=params[:user]
-      input.span5 type="text" name="command" placeholder="Resource" value=params[:command] required="required"
-      input.span5 type="text" name="key" placeholder="Key (optional, separate by space or something)" value=params[:key]
+      input.span1 type="text" name="user" pattern="\w+" placeholder="user" value=params[:user]
+      input.span5 type="text" name="command" placeholder="resource (required)" value=params[:command] required="required"
+      input.span5 type="text" name="key" placeholder="key (separate by space or something)" value=params[:key]
       input.span1.offset4.btn.btn-primary type="submit" value="run"
 .row
   .span8
