@@ -19,7 +19,7 @@
   .span4
     .hero-unit
       h2 Access Repository
-      form method="post" action="/repo/"
+      form method="post" action=url("/repo/")
         input type='hidden' name='return_to' value=request.fullpath
         input.span2 type="text" name="repo" pattern="[^\/\s]+\/[^\/\s]+" required="required" placeholder="Repository" value=@repo_name
         input.span2 type="text" name="user" pattern="\w+" placeholder="GitHub user (optional)" value=@login

@@ -1,6 +1,6 @@
 .row
   .span12
-    form.well.form-inline method="get" action="/gh/"
+    form.well.form-inline method="get" action=url("/gh/")
       input.span1 type="text" name="user" pattern="\w+" placeholder="user" value=params[:user]
       input.span5 type="text" name="command" placeholder="resource (required)" value=params[:command] required="required"
       input.span5 type="text" name="key" placeholder="key (separate by space or something)" value=params[:key]

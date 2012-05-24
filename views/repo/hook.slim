@@ -57,13 +57,13 @@
         .pull-right
           label
             - if hook['new']
-              input.btn.btn-mini.btn-inverse type='submit' value="Create" formaction='/repo/create_hook'
+              input.btn.btn-mini.btn-inverse type='submit' value="Create" formaction=url('/repo/create_hook')
             - else
               .btn-toolbar
                 .btn-group
-                  input.btn.btn-mini type='submit' value="Convert" formaction='/repo/convert_hook' formnovalidate="formnovalidate" disabled=true
-                  input.btn.btn-mini type='submit' value="Test" formaction='/repo/test_hook' formnovalidate="formnovalidate"
-                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction='/repo/update_hook'
+                  input.btn.btn-mini type='submit' value="Convert" formaction=url('/repo/convert_hook') formnovalidate="formnovalidate" disabled=true
+                  input.btn.btn-mini type='submit' value="Test" formaction=url('/repo/test_hook') formnovalidate="formnovalidate"
+                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction=url('/repo/update_hook')
                 .btn-group
-                  input.btn.btn-mini.btn-danger type='submit' value="Delete" formaction='/repo/delete_hook' formnovalidate="formnovalidate"
+                  input.btn.btn-mini.btn-danger type='submit' value="Delete" formaction=url('/repo/delete_hook') formnovalidate="formnovalidate"
   p &nbsp;

@@ -17,14 +17,18 @@ html
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          a.brand href="/" Travis Admin
+          a.brand href=url("/") Travis Admin
           ul.nav
             li class="#{"active" if request.path_info == '/'}"
-              a href="/" Overview
+              a href=url("/") Overview
             li class="#{"active" if request.path_info.start_with? '/repo/'}"
-              a href="/repo/" Repo Admin
+              a href=url("/repo/") Repo Admin
             li class="#{"active" if request.path_info.start_with? '/gh/'}"
-              a href="/gh/" GH Console
+              a href=url("/gh/") GH Console
+          form.navbar-form.pull-right
+            select name='db' onchange="document.location.href = '/' + this.value"
+              - settings.databases.each_key do |db|
+                option value=db selected=@db_name==db Travis #{db.to_s.split("_").map(&:capitalize).join(" ")}
 
     .container#page
       == @flash.to_s

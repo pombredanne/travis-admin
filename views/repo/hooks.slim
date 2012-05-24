@@ -4,7 +4,7 @@ p
   .span4
     h1 Hooks
   .span4
-    form.form-inline.pull-right action="/repo/add_hook" method="post"
+    form.form-inline.pull-right action=url("/repo/add_hook") method="post"
       input type='hidden' name='token' value=@token
       input type='hidden' name='repo_name' value=@repo_name
       input type='hidden' name='return_to' value=request.fullpath
