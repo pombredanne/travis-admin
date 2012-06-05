@@ -21,5 +21,6 @@ end
 platform :jruby do
   gem 'kramdown'
   gem 'trinidad'
+  gem 'jdbc-postgres'
 end
 
