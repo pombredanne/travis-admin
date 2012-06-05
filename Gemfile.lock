@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 6051b14c379374ebb2ac5a380dd78c416e326bdd
+  revision: 7fa990f4c7a51ccef8c833496448007f9f8bff78
   branch: master
   specs:
     gh (0.4.2)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/sinatra/sinatra.git
-  revision: cab56ed7d64b9ffb6d4df48cb8d7d3153890f3ee
+  revision: f948c236fe5c3cd205b89c20387de1ca16ed8c80
   branch: master
   specs:
     sinatra (1.4.0)
@@ -46,8 +46,11 @@ GEM
     addressable (2.2.8)
     backports (2.5.3)
     eventmachine (0.12.10)
+    eventmachine (0.12.10-java)
     faraday (0.8.0)
       multipart-post (~> 1.1)
+    jruby-rack (1.1.6)
+    kramdown (0.13.6)
     multi_json (1.3.5)
     multipart-post (1.1.5)
     pg (0.13.2)
@@ -65,13 +68,19 @@ GEM
       tilt (~> 1.3.3)
     temple (0.4.0)
     tilt (1.3.3)
+    trinidad (1.3.5)
+      jruby-rack (>= 1.1.5)
+      trinidad_jars (>= 1.0.2)
+    trinidad_jars (1.0.3)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
   addressable
   gh!
+  kramdown
   pg
   puma!
   rack-ssl
@@ -80,3 +89,4 @@ DEPENDENCIES
   sinatra!
   sinatra-contrib!
   slim
+  trinidad
