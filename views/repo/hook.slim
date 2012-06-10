@@ -29,21 +29,22 @@
               = hook['last_response']['status'].gsub(/^ok$/, 'OK')
             - else
               = hook['last_response']['message']
-    .row
-      .span4
-        - service[:schema].each do |type, key|
-          .row
-            .span2
-              label for="config[#{key}]"= key.split('_').map(&:capitalize).join(" ").gsub(/ssl|url/i) { |s| s.upcase }
-            .span2
-              - if type == 'boolean'
-                select.span2 name="config[#{key}]"
-                  option selected=hook['config'][key].to_i==1 value=1 On
-                  option selected=hook['config'][key].to_i==0 value=0 Off
-              - elsif hook['name'] != 'travis' and key == 'password' || key == 'token' || key == 'secret'
-                input.span2 name="config[#{key}]" value=hook['config'][key] type='password'
-              - else
-                input.span2 name="config[#{key}]" value=hook['config'][key]
+    - if hook['config']
+      .row
+        .span4
+          - service[:schema].each do |type, key|
+            .row
+              .span2
+                label for="config[#{key}]"= key.split('_').map(&:capitalize).join(" ").gsub(/ssl|url/i) { |s| s.upcase }
+              .span2
+                - if type == 'boolean'
+                  select.span2 name="config[#{key}]"
+                    option selected=hook['config'][key].to_i==1 value=1 On
+                    option selected=hook['config'][key].to_i==0 value=0 Off
+                - elsif hook['name'] != 'travis' and key == 'password' || key == 'token' || key == 'secret'
+                  input.span2 name="config[#{key}]" value=hook['config'][key] type='password'
+                - else
+                  input.span2 name="config[#{key}]" value=hook['config'][key]
     .row
       - service[:events].each do |event|
         .span2
@@ -63,7 +64,7 @@
                 .btn-group
                   input.btn.btn-mini type='submit' value="Convert" formaction=url('/repo/convert_hook') formnovalidate="formnovalidate" disabled=true
                   input.btn.btn-mini type='submit' value="Test" formaction=url('/repo/test_hook') formnovalidate="formnovalidate"
-                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction=url('/repo/update_hook')
+                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction=url('/repo/update_hook') disabled=hook['config'].nil?
                 .btn-group
                   input.btn.btn-mini.btn-danger type='submit' value="Delete" formaction=url('/repo/delete_hook') formnovalidate="formnovalidate"
   p &nbsp;
