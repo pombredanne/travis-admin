@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 1c91d4f5eeef7f217296b362c7f99ad860f086d1
+  revision: 2d853a27e2e9ecce21c87183d089437a2ae9c773
   branch: master
   specs:
-    gh (0.6.1)
+    gh (0.7.1)
       addressable
       backports (~> 2.3)
       faraday (~> 0.8)
