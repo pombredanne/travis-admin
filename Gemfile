@@ -7,13 +7,13 @@ gem 'gh',               github: 'rkh/gh',                  branch: 'master'
 
 gem 'thin'
 gem 'pry'
-gem 'rerun'
+gem 'rerun', group: :development
 
 gem 'addressable'
 gem 'redis'
 gem 'sequel'
 gem 'pg'
-gem 'sqlite3'
+gem 'sqlite3', group: :development
 
 gem 'rack-ssl'
 
