@@ -1,2 +1,2 @@
-require './app'
-run Sinatra::Application
+require 'travis/admin'
+run Travis::Admin.new

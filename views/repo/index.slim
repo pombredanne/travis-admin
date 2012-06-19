@@ -1,8 +1,8 @@
 .row
   .span8
     - if @repo
-      == slim :"repo/details"
-      == slim :"repo/hooks"
+      == slim :details
+      == slim :hooks
     - else
       markdown:
         # No Repository Selected
@@ -19,7 +19,7 @@
   .span4
     .hero-unit
       h2 Access Repository
-      form method="post" action=url("/repo/")
+      form method="post" action=url("/")
         input type='hidden' name='return_to' value=request.fullpath
         input.span2 type="text" name="repo" pattern="[^\/\s]+\/[^\/\s]+" required="required" placeholder="Repository" value=@repo_name
         input.span2 type="text" name="user" pattern="\w+" placeholder="GitHub user (optional)" value=@login
@@ -28,14 +28,3 @@
       .alert
         a.close data-dismiss="alert" href="#" x
         | Using GitHub token <tt class="label label-warning">#{@token}</tt>
-    .alert.alert-info.alert-block
-      a.close data-dismiss="alert" href="#" x
-      h4.alert-heading Enabling Pull Request Support
-
-      markdown:
-        To enable Pull Request support, access the Repository (above) with and admin user
-        that granted access to Travis CI.
-
-        If you can't enable the <tt class="label label-info">pull_request</tt> event for a
-        Travis hook, click **Convert** to create an equivalent web hook and disable the Travis
-        hook. You can then enable <tt class="label label-info">pull_request</tt> events on that hook.

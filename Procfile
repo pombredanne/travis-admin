@@ -1,1 +1,3 @@
-web: bundle exec rackup -s puma -p $PORT
+web: bundle exec ./script/server
+console: bundle exec ./script/console
+redis: redis-server ./config/development/redis.conf
