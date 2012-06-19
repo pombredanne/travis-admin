@@ -6,6 +6,10 @@ module Travis::Admin
       env['travis.db']
     end
 
+    def db_name
+      env['travis.db_name']
+    end
+
     def redis
       env['travis.redis']
     end
