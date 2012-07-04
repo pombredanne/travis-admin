@@ -19,4 +19,5 @@ gem 'rack-ssl'
 
 gem 'slim'
 gem 'rdiscount'
+gem 'coffee-script'
 

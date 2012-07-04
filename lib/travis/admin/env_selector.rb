@@ -9,6 +9,7 @@ module Travis::Admin
   # * Connects to Redis and SQL database
   class EnvSelector < Travis::Admin::Controller
     enable :static
+    set connection_pool: {}
 
     use Rack::Auth::Basic do |username, password|
       username == settings.username and password == settings.password
