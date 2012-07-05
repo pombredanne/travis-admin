@@ -1,23 +1,7 @@
 .row
-  .span7
+  .span8
     h2
-      a href=url('/packages.csv') Packages of all time
+      a href=url('/packages') Packages of all time
     h2
-      a href=url('/vat_ids.csv') VAT IDs of all time
-  .span5
-    form.box.form-horizontal method="get" action=url('/packages.csv')
-      h1 Generate Report
-      .control-group
-        label.control-label for="start_date" Start Date
-        .controls
-          input type="text" name="start_date" required="required" placeholder="YYYY-MM-DD" pattern="\d\d\d\d-\d\d-\d\d"
-
-      .control-group
-        label.control-label for="start_date" End Date
-        .controls
-          input type="text" name="end_date" required="required" placeholder="YYYY-MM-DD" pattern="\d\d\d\d-\d\d-\d\d"
-
-      .form-actions
-        .btn-group
-          input.btn type='submit' value="Packages" formaction=url('/packages.csv')
-          input.btn type='submit' value="VAT IDs" formaction=url('/vat_ids.csv')
+      a href=url('/vat_ids') VAT IDs of all time
+  == slim :form

@@ -41,6 +41,10 @@ module Travis::Admin
       render_orders
     end
 
+    def csv_url
+      request.fullpath.gsub(/(vat_ids|packages)(\.\?*)?/, '\1.csv')
+    end
+
     def render_orders
       case params[:format]
       when 'csv', 'txt'     then as_csv
