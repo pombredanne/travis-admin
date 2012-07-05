@@ -1,6 +1,8 @@
 source :rubygems
 ruby '1.9.3'
 
+gem 'heroku'
+
 gem 'sinatra',          github: 'sinatra',                 branch: 'master'
 gem 'sinatra-contrib',  github: 'sinatra/sinatra-contrib', branch: 'master'
 gem 'gh',               github: 'rkh/gh',                  branch: 'master'
