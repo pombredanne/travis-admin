@@ -1,0 +1,17 @@
+.span4
+  form.box.form-horizontal method="get" action=url('/packages')
+    h1 Generate Report
+    .control-group
+      label.control-label for="start_date" Start Date
+      .controls
+        input.span2 type="text" name="start_date" required="required" placeholder="YYYY-MM-DD" pattern="\d\d\d\d-\d\d-\d\d" value=params[:start_date]
+
+    .control-group
+      label.control-label for="start_date" End Date
+      .controls
+        input.span2 type="text" name="end_date" required="required" placeholder="YYYY-MM-DD" pattern="\d\d\d\d-\d\d-\d\d" value=params[:end_date]
+
+    .form-actions
+      .btn-group
+        input.btn type='submit' value="Packages" formaction=url('/packages')
+        input.btn type='submit' value="VAT IDs" formaction=url('/vat_ids')
