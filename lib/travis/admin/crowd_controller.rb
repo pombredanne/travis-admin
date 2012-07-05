@@ -5,9 +5,12 @@ module Travis::Admin
   class CrowdController < Travis::Admin::Controller
     set prefix: '/crowd', title: 'Crowd Funding'
 
+    def self.db
+      @db ||=  Sequel.connect(crowd_db)
+    end
+
     before do
-      crowd_db = Sequel.connect(settings.crowd_db)
-      @orders  = crowd_db[:orders].join(:users, id: :user_id).join(:addresses, addressable_id: :orders__id, kind: 'billing')
+      @orders = settings.db[:orders].join(:users, id: :user_id).join(:addresses, addressable_id: :orders__id, kind: 'billing')
 
       if params[:start_date]
         start_date = Time.parse("#{params[:start_date]} 00:00:00 +0200")
@@ -24,20 +27,28 @@ module Travis::Admin
       slim :index
     end
 
-    get '/packages.:format' do
+    get '/packages.?:format?' do
       @orders.group_and_count!(:subscription, :package, :country, :add_vat) { date_trunc('day', :orders__created_at).as(:date) }
       @orders.select_more! { sum(total).as(:total) }
-
-      as_csv
+      render_orders
     end
 
-    get '/vat_ids.:format' do
+    get '/vat_ids.?:format?' do
       @orders.filter! 'vatin IS NOT NULL'
       @orders.filter! "vatin != ''"
       @orders.select!(:subscription, :package, :country, :add_vat, :total) { date_trunc('day', :orders__created_at).as(:date) }
       @orders.select_more! :users__name, :orders__id, :orders__vatin
+      render_orders
+    end
 
-      as_csv
+    def render_orders
+      case params[:format]
+      when 'csv', 'txt'     then as_csv
+      when 'html', '', nil  then slim :orders
+      else pass
+      end
+    rescue Sequel::DatabaseDisconnectError
+      retry
     end
 
     def columns
