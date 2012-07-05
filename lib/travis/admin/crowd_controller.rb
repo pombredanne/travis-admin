@@ -11,6 +11,7 @@ module Travis::Admin
 
     before do
       @orders = settings.db[:orders].join(:users, id: :user_id).join(:addresses, addressable_id: :orders__id, kind: 'billing')
+      @orders.order! :date
 
       if params[:start_date]
         start_date = Time.parse("#{params[:start_date]} 00:00:00 +0200")
