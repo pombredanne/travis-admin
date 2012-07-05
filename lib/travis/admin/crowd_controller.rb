@@ -24,14 +24,14 @@ module Travis::Admin
       slim :index
     end
 
-    get '/packages.csv' do
+    get '/packages.:format' do
       @orders.group_and_count!(:subscription, :package, :country, :add_vat) { date_trunc('day', :orders__created_at).as(:date) }
       @orders.select_more! { sum(total).as(:total) }
 
       as_csv
     end
 
-    get '/vat_ids.csv' do
+    get '/vat_ids.:format' do
       @orders.filter! 'vatin IS NOT NULL'
       @orders.filter! "vatin != ''"
       @orders.select!(:subscription, :package, :country, :add_vat, :total) { date_trunc('day', :orders__created_at).as(:date) }
@@ -50,11 +50,12 @@ module Travis::Admin
       order[:add_vat]      = !!order[:add_vat]
       order[:subscription] = !!order[:subscription]
       order[:country]      = "Unknown" if order[:country].to_s.empty?
+      order[:total]        = order[:total].to_s[0..-3] + '.' + order[:total].to_s[-2..-1]
       [order[:date].strftime("%Y-%m-%d"), *order.values_at(*columns)]
     end
 
     def as_csv
-      content_type :csv
+      content_type params[:format].to_sym
       CSV.generate do |csv|
         csv << ["date", *columns.map(&:to_s)]
         @orders.each do |order|
