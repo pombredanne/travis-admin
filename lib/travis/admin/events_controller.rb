@@ -24,7 +24,7 @@ module Travis::Admin
             Timeout.timeout(10) do
               redis.punsubscribe rescue nil
               redis.unsubscribe  rescue nil
-            end
+            end rescue nil
             thread.kill
           end
         end
