@@ -42,22 +42,27 @@ module Travis::Admin
 
     def columns
       columns = @orders.columns.dup
-      columns.delete(:date)
+      columns.unshift(:date) if columns.delete(:date)
       columns
     end
 
+    def normalize(order)
+      order[:add_vat]      = !!order[:add_vat]                                              if order.include? :add_vat
+      order[:subscription] = !!order[:subscription]                                         if order.include? :subscription
+      order[:country]      = "Unknown" if order[:country].to_s.empty?                       if order.include? :country
+      order[:total]        = order[:total].to_s[0..-3] + '.' + order[:total].to_s[-2..-1]   if order.include? :total
+      order[:date]         = order[:date].strftime("%Y-%m-%d")                              if order.include? :date
+    end
+
     def values(order)
-      order[:add_vat]      = !!order[:add_vat]
-      order[:subscription] = !!order[:subscription]
-      order[:country]      = "Unknown" if order[:country].to_s.empty?
-      order[:total]        = order[:total].to_s[0..-3] + '.' + order[:total].to_s[-2..-1]
-      [order[:date].strftime("%Y-%m-%d"), *order.values_at(*columns)]
+      normalize(order)
+      order.values_at(*columns)
     end
 
     def as_csv
       content_type params[:format].to_sym
       CSV.generate do |csv|
-        csv << ["date", *columns.map(&:to_s)]
+        csv << columns.map(&:to_s)
         @orders.each do |order|
           csv << values(order)
         end
