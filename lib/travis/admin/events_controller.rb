@@ -1,6 +1,7 @@
 require 'travis/admin/controller'
 require 'thread'
 require 'gh'
+require 'timeout'
 
 module Travis::Admin
   class EventsController < Travis::Admin::Controller
@@ -19,9 +20,13 @@ module Travis::Admin
         thread = Thread.new { block[out] }
         thread.abort_on_exception = true if settings.development?
         out.callback do
-          redis.punsubscribe rescue nil
-          redis.unsubscribe  rescue nil
-          thread.kill
+          Thread.new do
+            Timeout.timeout(10) do
+              redis.punsubscribe rescue nil
+              redis.unsubscribe  rescue nil
+            end
+            thread.kill
+          end
         end
       end
     end
@@ -29,7 +34,7 @@ module Travis::Admin
     def subscribe(uuid = params[:uuid])
       sub, msg = uuid ? [:subscribe, :message] : [:psubscribe, :pmessage]
       redis.public_send(sub, "events:#{uuid || '*'}") do |on|
-        on.public_send(msg) { |*, message| yield(message) }
+        on.public_send(msg) { |*, message| yield(message); sleep(0.1) }
       end
     end
 
