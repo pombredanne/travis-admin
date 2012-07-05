@@ -1,0 +1,17 @@
+.row
+  .span8
+    .pull-right
+      a href=csv_url
+        i.icon-download
+        |  Download CSV
+    table.table.table-striped
+      thead
+        tr
+          - columns.each do |column|
+            th= column
+      tbody
+        - @orders.each do |order|
+          tr
+            - values(order).each do |value|
+              td= value
+  == slim :form
