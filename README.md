@@ -8,6 +8,7 @@ You probably don't need this.
 
 ```
 which redis-server || brew install redis
+cp -R config/development.example config/development
 bundle install
 ```
 
