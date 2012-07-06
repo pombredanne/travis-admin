@@ -1,0 +1,5 @@
+fake:
+  db: 'sqlite://config/development/tokens.db'
+  redis: 'redis://127.0.0.1:5678/'
+crowd:
+  db: 'postgres://localhost/travis-crowd'

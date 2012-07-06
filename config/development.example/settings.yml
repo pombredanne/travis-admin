@@ -1,0 +1,4 @@
+---
+session_secret: "you should change this"
+username: "admin"
+password: "admin"
