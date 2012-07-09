@@ -1,0 +1,29 @@
+<ul class="groups">
+  {{#each Travis.Group.all}}
+    {{#view Travis.GroupView groupBinding="this"}}
+      {{#with group}}
+        <strong>{{uuid}}</strong>
+        <ul class="events">
+          {{#each events}}
+            <li class="event">{{message}}</li>
+          {{/each}}
+        </ul>
+      {{/with}}
+    {{/view}}
+  {{/each}}
+</ul>
+
+<div id="details">
+  {{#if Travis.groupsController.selected}}
+    {{#with Travis.groupsController.selected}}
+      <ul class="events">
+        {{#each events}}
+          {{#view Travis.EventDetailsView eventBinding="this"}}
+            <strong>{{message}}</strong>
+            <div class="payload">{{payload}}</div>
+          {{/view}}
+        {{/each}}
+      </ul>
+    {{/with}}
+  {{/if}}
+</div>

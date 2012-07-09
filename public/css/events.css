@@ -1,0 +1,17 @@
+.groups {
+  width: 50%;
+  float: left;
+  height: 400px;
+  overflow: auto;
+}
+
+#details {
+  width: 44%;
+  float: right;
+  height: 400px;
+  overflow: auto;
+}
+
+#details .payload {
+  padding-left: 15px;
+}

@@ -48,5 +48,31 @@ module Travis::Admin
       content_type "text/event-stream"
       background { |out| subscribe { |msg| out << event(msg) } }
     end
+
+    private
+
+    class HandlebarsTemplate < Tilt::Template
+      def prepare
+        hash = "TILT#{data.hash.abs}"
+        name = options[:name] ? %( data-template-name="#{name}") : nil
+        source = %(<script type="text/x-handlebars"#{name}>#{data}</script>)
+        @code = "<<#{hash}.chomp\n#{source}\n#{hash}"
+      end
+
+      def precompiled_template(locals)
+        @code
+      end
+
+      def precompiled(locals)
+        source, offset = super
+        [source, offset + 1]
+      end
+    end
+
+    Tilt.register HandlebarsTemplate, :hbs
+
+    def handlebars(path)
+      render :hbs, :events
+    end
   end
 end
