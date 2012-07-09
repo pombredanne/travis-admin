@@ -23,3 +23,7 @@ gem 'slim'
 gem 'rdiscount'
 gem 'coffee-script'
 
+group :development do
+  gem 'foreman'
+  gem 'rake'
+end
