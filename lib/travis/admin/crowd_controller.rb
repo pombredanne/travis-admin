@@ -44,7 +44,7 @@ module Travis::Admin
 
     get '/all.?:format?' do
       @orders.select! :total, :users__name, :users__email, :orders__created_at
-      @orders.order! :package
+      @orders.order! :total.desc
       render_orders
     end
 
