@@ -42,8 +42,14 @@ module Travis::Admin
       render_orders
     end
 
+    get '/all.?:format?' do
+      @orders.select! :total, :users__name, :users__email, :orders__created_at
+      @orders.order! :package
+      render_orders
+    end
+
     def csv_url
-      request.fullpath.gsub(/(vat_ids|packages)(\.\?*)?/, '\1.csv')
+      request.fullpath.gsub(/(vat_ids|packages|all)(\.\?*)?/, '\1.csv')
     end
 
     def render_orders
