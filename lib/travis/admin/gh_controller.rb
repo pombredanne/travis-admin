@@ -3,6 +3,7 @@ require 'gh'
 
 module Travis::Admin
   class GHController < Travis::Admin::Controller
+    class WithLink < Struct.new(:string, :link); end
     set prefix: '/gh', title: 'GH Console'
 
     helpers do
@@ -28,14 +29,15 @@ module Travis::Admin
         when respond_to(:to_hash) then display_hash(response.to_hash, indentation, key)
         when respond_to(:to_ary)  then display_array(response.to_a, indentation, key)
         when respond_to(:to_str)  then display_string(response.to_s)
+        when respond_to(:link)    then display_string(response.string, response.link)
         else h(response.inspect)
         end
       end
 
-      def display_string(string)
-        case string
+      def display_string(string, url = string)
+        case url
         when %r{^https://api.github.com/([^"\s]+)$} then "&quot;<a href='#{url_for(command: $1)}'>#{shorten string}</a>&quot;"
-        when %r{^https?://([^"\s]+)$} then "&quot;<a href='#{string}'>#{shorten string}</a>&quot;"
+        when %r{^https?://([^"\s]+)$} then "&quot;<a href='#{url}'>#{shorten string}</a>&quot;"
         else h(string.inspect)
         end
       end
@@ -83,8 +85,18 @@ module Travis::Admin
         if sub == "_"
           data.map { |entry| access_key(entry, *rest) }
         else
-          sub = Integer sub if sub =~  /^\d+$/
-          access_key(data[sub], *rest)
+          sub    = Integer sub if sub =~  /^\d+$/
+          nested = data[sub]
+
+          @url   = data.try(:[], "_links").try(:[], 'self') || @url
+          @url   = @url['href'] if @url.respond_to? :to_hash
+
+          if @url and nested.respond_to? :to_str and not nested =~ %r{^https?://([^"\s]+)$}
+            nested = WithLink.new(nested, @url)
+            @url   = nil
+          end
+
+          access_key(nested, *rest)
         end
       end
     end
