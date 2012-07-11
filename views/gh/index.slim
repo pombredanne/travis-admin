@@ -5,6 +5,11 @@
       input.span5 type="text" name="command" placeholder="resource (required)" value=params[:command] required="required"
       input.span5 type="text" name="key" placeholder="key (separate by space or something)" value=params[:key]
       input.span1.offset4.btn.btn-primary type="submit" value="run"
+- if @content
+  .row
+    .span12
+      pre.prettyprint.linenums.pre-scrollable class="lang-#{@lang}"
+        = @content
 .row
   .span8
     pre.prettyprint.linenums.lang-js.pre-scrollable

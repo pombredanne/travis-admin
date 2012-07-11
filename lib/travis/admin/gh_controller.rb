@@ -67,6 +67,11 @@ module Travis::Admin
         end
         @output = gh[params[:command]]
         @output = access_key(@output, *params[:key].to_s.split(/\W/))
+
+        if @output["type"] == "file" and @output["encoding"] == "base64" and @output["content"]
+          @content = @output["content"].to_s.unpack('m').first
+          @lang    = @output["path"].to_s[/[^\.]*$/]
+        end
       end
 
       slim :index
