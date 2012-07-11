@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 708cc31f907a04102380b97a74a6b6da056a22fc
+  revision: f01ff0648f35f42ac1844b821930c15974fd9f40
   branch: master
   specs:
     gh (0.7.3)
