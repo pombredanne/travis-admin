@@ -7,28 +7,61 @@ module Travis::Admin
 
     helpers do
       include GH::Case
+
+      def linkify(src)
+        pattern = url('')
+        src.gsub(%r{https://api.github.com/((?:(?!&quot;)\S)+)}) do |content|
+          "<a href='#{url_for($1)}'>#{conten}</a>"
+        end
+      end
+
+      def url_for(options)
+        options[:command] ||= params[:command]
+        options[:user]    ||= params[:user]
+        Addressable::URI.new(query_values: options).to_s
+      end
+
       def display_response(response, indentation = 0, key = nil)
-        key ||= params[:key].empty? ? "" : " " + params[:key]
+        key ||= params[:key].to_s.empty? ? "" : " " + params[:key]
         case response
         when nil                  then 'null'
         when respond_to(:to_hash) then display_hash(response.to_hash, indentation, key)
         when respond_to(:to_ary)  then display_array(response.to_a, indentation, key)
-        else response.inspect
+        when respond_to(:to_str)  then display_string(response.to_s)
+        else h(response.inspect)
         end
       end
 
+      def display_string(string)
+        case string
+        when %r{^https://api.github.com/([^"\s]+)$} then "&quot;<a href='#{url_for(command: $1)}'>#{shorten string}</a>&quot;"
+        when %r{^https?://([^"\s]+)$} then "&quot;<a href='#{string}'>#{shorten string}</a>&quot;"
+        else h(string.inspect)
+        end
+      end
+
+      def shorten(str)
+        return str if str.size < 60
+        str[0,57] + '...'
+      end
+
       def display_list(list, sep1, sep2, indentation, key)
-        return "#{sep1} #{sep2}" if list.empty?
+        return h("#{sep1} #{sep2}") if list.empty?
         lines = list.each_with_index.map do |*args|
           out = "  " * (indentation + 1)
           out << yield(*args)
         end
 
         if lines.size == 1 and lines.first.size < 80
-          "#{sep1} #{lines.first.gsub(/^ +/, '') } #{sep2}"
+          "#{h(sep1)} #{lines.first.gsub(/^ +/, '') } #{h(sep2)}"
         else
-          "#{sep1} #{"//" + key unless key.empty?}\n" << lines.join(",\n")<< "\n" << "  " * indentation << sep2
+          "#{h(sep1)} #{key_link(key)}\n" << lines.join(",\n")<< "\n" << "  " * indentation << h(sep2)
         end
+      end
+
+      def key_link(key)
+        key = key.to_s.strip
+        "// <a href='#{url_for(key: key)}'>#{h key}</a>" unless key.empty?
       end
 
       def display_array(array, indentation, key)
@@ -39,7 +72,7 @@ module Travis::Admin
 
       def display_hash(hash, indentation, key)
         display_list(hash, '{', '}', indentation, key) do |(subkey, value), index|
-          subkey.inspect + ": " + display_response(value, indentation + 1, "#{key} #{subkey}")
+          h(subkey.inspect + ": ") + display_response(value, indentation + 1, "#{key} #{subkey}")
         end
       end
 

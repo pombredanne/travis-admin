@@ -1,7 +1,12 @@
 require 'travis/admin'
+require 'cgi'
 
 module Travis::Admin
   module Helpers
+    def h(string)
+      CGI.escapeHTML(string)
+    end
+
     def db
       env['travis.db']
     end

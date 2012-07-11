@@ -45,3 +45,13 @@ header h1 {
 .box .form-actions {
   margin-bottom: 0 !important;
 }
+
+.prettyprint a {
+  border-bottom: dashed 1px #A1D1D1;
+  margin-bottom: -1px;
+}
+
+.prettyprint a:hover {
+  border-bottom: solid 1px #A1D1D1;
+  text-decoration: none !important;
+}

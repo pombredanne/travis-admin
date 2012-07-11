@@ -13,7 +13,7 @@
 .row
   .span8
     pre.prettyprint.linenums.lang-js.pre-scrollable
-      = display_response @output if @output
+      == display_response @output if @output
   .span4
     pre.prettyprint.pre-scrollable
       - @events.each do |event|
