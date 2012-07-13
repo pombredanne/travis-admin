@@ -88,7 +88,7 @@ module Travis::Admin
           sub    = Integer sub if sub =~  /^\d+$/
           nested = data[sub]
 
-          @url   = data.try(:[], "_links").try(:[], 'self') || @url
+          @url   = data["_links"]['self'] rescue @url
           @url   = @url['href'] if @url.respond_to? :to_hash
 
           if @url and nested.respond_to? :to_str and not nested =~ %r{^https?://([^"\s]+)$}
@@ -110,6 +110,7 @@ module Travis::Admin
           @events << payload if event == "http.gh"
           block.call
         end
+
         @output = gh[params[:command]]
         @output = access_key(@output, *params[:key].to_s.split(/\W/))
 
