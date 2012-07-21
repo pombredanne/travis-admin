@@ -1,29 +1,25 @@
-<ul class="groups">
-  {{#each Travis.Group.all}}
-    {{#view Travis.GroupView groupBinding="this"}}
-      {{#with group}}
-        <strong>{{uuid}}</strong>
-        <ul class="events">
-          {{#each events}}
-            <li class="event">{{message}}</li>
-          {{/each}}
-        </ul>
-      {{/with}}
-    {{/view}}
-  {{/each}}
-</ul>
+<div id="events">
+  <div class="tools">
+    {{view Travis.FilterView}}
+  </div>
 
-<div id="details">
-  {{#if Travis.groupsController.selected}}
-    {{#with Travis.groupsController.selected}}
-      <ul class="events">
-        {{#each events}}
-          {{#view Travis.EventDetailsView eventBinding="this"}}
-            <strong>{{message}}</strong>
-            <div class="payload">{{payload}}</div>
-          {{/view}}
-        {{/each}}
-      </ul>
-    {{/with}}
-  {{/if}}
+  <div class="container-fluid">
+    <div class="row-fluid">
+      {{#collection Travis.GroupsList}}
+        <a class="title" {{action "toggleEvents" on="click"}}>
+          {{view.group.title}} ({{view.count}})
+        </a>
+        {{#collection Travis.EventsList contentBinding="view.group.events"}}
+          <a {{action "showDetails"}} class="message">{{view.message}}</a>
+        {{/collection}}
+      {{/collection}}
+
+      <div class="span8 details">
+        {{#view Travis.EventDetailsView}}
+          <strong>{{view.message}}</strong>
+          <div class="payload">{{view.payload}}</div>
+        {{/view}}
+      </div>
+    </div>
+  </div>
 </div>

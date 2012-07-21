@@ -7,11 +7,54 @@
 
 #details {
   width: 44%;
+  height: 100%;
   float: right;
-  height: 400px;
   overflow: auto;
 }
 
 #details .payload {
   padding-left: 15px;
+}
+
+#events .pause {
+  float: right;
+  margin: 0 25px 10px 0;
+}
+
+#events .tools {
+  width: 100%;
+  overflow: hidden;
+}
+
+#events ul.events {
+  display: none;
+  list-style-type: none;
+  margin-left: 15px;
+}
+
+#events ul.events li.highlighted {
+  font-weight: bold;
+}
+
+#events ul.events .message {
+  cursor: pointer;
+}
+
+#events ul.groups .group {
+  display: none;
+}
+
+#events ul.groups .group.visible {
+  display: block;
+}
+
+#events ul.groups .group > .title {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+  text-decoration: underline;
+}
+
+#events .filter {
+  margin-left: 18px;
 }
