@@ -25,8 +25,11 @@ Travis.Event.createFromData = (data) ->
 Travis.Event.GithubEvent = Travis.Event.extend
   repository: ( ->
     repo = @getPath('payload.data.repository')
-    owner = repo.owner.name || repo.owner.login
-    "#{owner}/#{repo.name}"
+    if repo
+      owner = repo.owner.name || repo.owner.login
+      "#{owner}/#{repo.name}"
+    else
+      'undefined'
   ).property('payload')
 
 Travis.Event.PushReceived = Travis.Event.GithubEvent.extend
