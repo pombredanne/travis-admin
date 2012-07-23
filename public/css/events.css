@@ -78,3 +78,14 @@ body {
 #events .container-fluid .row-fluid {
   overflow: hidden;
 }
+
+.details .open-in-new-window {
+  height: 1.2em;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+  padding-top: 2px;
+}
+
+.details .payload {
+  margin-top: 10px;
+}

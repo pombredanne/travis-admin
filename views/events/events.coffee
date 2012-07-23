@@ -149,6 +149,10 @@ Travis.EventDetailsView = Ember.View.extend
   payload: (->
     JSON.stringify(@getPath('event.payload'), null, 2)
   ).property('event.payload')
+  openPayloadInNewWindow: ->
+    w = window.open('','','width=800,height=500')
+    w.document.write("<pre><code>#{@get('payload')}</code></pre>")
+    w.focus()
 
 Travis.PauseButton = Em.View.extend
   classNames: ['btn', 'pause']

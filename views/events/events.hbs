@@ -17,8 +17,11 @@
 
       <div class="span8 details">
         {{#view Travis.EventDetailsView}}
-          <strong>{{view.title}}</strong>
-          <div class="payload"><pre><code>{{view.payload}}</code></pre></div>
+          {{#if view.event}}
+            <strong>{{view.title}}</strong>
+            <a href="#" class="btn" {{action "openPayloadInNewWindow" on="click"}}>Open in new window</a>
+            <div class="payload"><pre><code>{{view.payload}}</code></pre></div>
+          {{/if}}
         {{/view}}
       </div>
     </div>
