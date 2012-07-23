@@ -135,6 +135,24 @@ Travis.EventDetailsView = Ember.View.extend
     JSON.stringify(@getPath('event.payload'), null, 2)
   ).property('event.payload')
 
+Travis.PauseButton = Em.View.extend
+  classNames: ['btn', 'pause']
+  template: Em.Handlebars.compile('{{view.text}}')
+  text: (->
+    if !!@get('pause')
+      'Resume'
+    else
+      'Pause'
+  ).property('pause')
+  pauseBinding: 'Travis.pause'
+  tagName: 'a'
+  click: ->
+    Travis.togglePause()
+
+Travis.set('pause', false)
+Travis.togglePause = ->
+  Travis.set('pause', !Travis.get('pause'))
+
 Travis.FilterView = Em.TextField.extend
   filter: (->
     regexp = new RegExp(@get('value'), 'i')
@@ -145,7 +163,17 @@ Travis.FilterView = Em.TextField.extend
   attributeBindings: ['type']
   classNames: ["filter"]
 
+queue = []
+
 source = new EventSource("events/stream")
 source.onmessage = (event) ->
   data = jQuery.parseJSON(event.data)
-  Travis.Event.createFromData(data)
+  queue.pushObject(data)
+
+process = ->
+  unless Travis.get('pause')
+    while data = queue.shiftObject()
+      Travis.Event.createFromData(data)
+  setTimeout(process, 50)
+
+process()
