@@ -168,6 +168,20 @@ Travis.PauseButton = Em.View.extend
   click: ->
     Travis.togglePause()
 
+Travis.PayloadView = Em.View.extend
+  classNames: ['payload']
+  reloadPayload: ( ->
+    # code prettier does not play nice with ember's auto updating
+    # values, so I need to replace it manually and run prettyPrint
+    # TODO: check if there is a better way
+    if payload = @get('payload')
+      setTimeout( (->
+        pre = this.$('pre').html('')
+        pre.html("<code>#{payload}</code>")
+        prettyPrint()
+      ), 10)
+  ).observes('payload')
+
 Travis.set('pause', false)
 Travis.togglePause = ->
   Travis.set('pause', !Travis.get('pause'))

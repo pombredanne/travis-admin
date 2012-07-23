@@ -20,7 +20,9 @@
           {{#if view.event}}
             <strong>{{view.title}}</strong>
             <a href="#" class="btn" {{action "openPayloadInNewWindow" on="click"}}>Open in new window</a>
-            <div class="payload"><pre><code>{{view.payload}}</code></pre></div>
+            {{#view Travis.PayloadView payloadBinding="view.payload"}}
+              <pre class="prettyprint linenums lang-js pre-scrollable"></pre>
+            {{/view}}
           {{/if}}
         {{/view}}
       </div>
