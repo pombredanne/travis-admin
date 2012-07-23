@@ -121,7 +121,6 @@ Travis.EventsList = Em.CollectionView.extend
   tagName: 'ul'
   itemViewClass: Em.View.extend
     filterBinding: 'Travis.filterWith'
-    classNameBindings: ["highlighted"]
     messageBinding: 'event.message'
     eventBinding: 'content'
     showDetails: ->
@@ -131,11 +130,9 @@ Travis.EventsList = Em.CollectionView.extend
 Travis.EventDetailsView = Ember.View.extend
   contentTag: 'li'
   eventBinding: 'Travis.eventDetailsController.event'
-  message: (->
-    @getPath('event.message')
-  ).property('event.message')
+  titleBinding: 'event.title'
   payload: (->
-    JSON.stringify(@getPath('event.payload'))
+    JSON.stringify(@getPath('event.payload'), null, 2)
   ).property('event.payload')
 
 Travis.FilterView = Em.TextField.extend

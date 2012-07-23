@@ -16,8 +16,8 @@
 
       <div class="span8 details">
         {{#view Travis.EventDetailsView}}
-          <strong>{{view.message}}</strong>
-          <div class="payload">{{view.payload}}</div>
+          <strong>{{view.title}}</strong>
+          <div class="payload"><pre><code>{{view.payload}}</code></pre></div>
         {{/view}}
       </div>
     </div>
