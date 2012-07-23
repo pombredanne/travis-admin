@@ -1,18 +1,19 @@
 .groups {
   width: 50%;
   float: left;
-  height: 400px;
-  overflow: auto;
 }
 
-#details {
+.details {
   width: 44%;
-  height: 100%;
   float: right;
+}
+
+.groups, .details {
+  height: 95%;
   overflow: auto;
 }
 
-#details .payload {
+.details .payload {
   padding-left: 15px;
 }
 
@@ -57,4 +58,23 @@
 
 #events .filter {
   margin-left: 18px;
+}
+
+body {
+  height: 100%;
+}
+
+#page.container {
+  position: relative;
+}
+
+#events {
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+#events .container-fluid .row-fluid {
+  overflow: hidden;
 }

@@ -118,6 +118,18 @@ Travis.GroupsList = Em.CollectionView.extend
   tagName: 'ul'
   classNames: 'span4 groups'
   contentBinding: 'Travis.groupsController.content'
+  didInsertElement: ->
+    @_super.apply(this, arguments)
+
+    # this code needs to be executed after ember rendered views,
+    # not sure if there is any global hook to use instead putting
+    # it in one of the views
+    # TODO: investigate
+    windowResized = ->
+      el = $('#events .container-fluid .row-fluid')
+      el.height($(window).height() - el.offset().top)
+    windowResized()
+    $(window).resize windowResized
 
 Travis.EventsList = Em.CollectionView.extend
   classNames: 'events'
