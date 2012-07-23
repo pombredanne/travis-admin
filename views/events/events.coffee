@@ -8,13 +8,8 @@ Travis.Event = Em.Object.extend
 
     uuid = @get('uuid')
     Travis.Group.addEvent(uuid, this)
+    Travis.Group.rawData[uuid] += @get('payload') + @get('title') + @get('message')
   titleBinding: 'message'
-  stringifiedPayload: (->
-    JSON.stringify(@get('payload'))
-  ).property('payload')
-  match: (regexp) ->
-    payload = @get('stringifiedPayload')
-    regexp.test(payload + @get('title') + @get('message'))
 
 Travis.Event.createFromData = (data) ->
   klass = switch data.message
@@ -71,12 +66,17 @@ Travis.Group = Em.Object.extend
 
     @set('events', [])
     Travis.Group.all.unshiftObject(this)
+    Travis.Group.rawData[@get('uuid')] = ''
   title: ( ->
     if event = @get('events').objectAt(0)
       event.get('title')
   ).property('events.@each')
-  match: (string) ->
-    !!@get('events').find (event) -> event.match(string)
+  match: (regexp) ->
+    uuid = @get('uuid')
+    if data = Travis.Group.rawData[uuid]
+      regexp.test(data)
+
+Travis.Group.rawData = {}
 
 Travis.Group.groupMappings = {}
 Travis.Group.all = Ember.ArrayProxy.create
@@ -103,7 +103,10 @@ Travis.GroupView = Ember.View.extend
   classNameBindings: ['visible']
   classNames: 'group'
   visible: ( ->
-    @get('group').match(new RegExp(@get('filter'), 'i'))
+    if filter = @get('filter')
+      @get('group').match(filter)
+    else
+      true
   ).property('filter')
   filterBinding: 'Travis.filterWith'
 
@@ -117,12 +120,6 @@ Travis.EventsList = Em.CollectionView.extend
   classNames: 'events'
   tagName: 'ul'
   itemViewClass: Em.View.extend
-  # It's to slow, I need to make filtering better
-  #  highlighted: (->
-  #    filter = @get("filter")
-  #    if filter && filter != ''
-  #      @get('event').match(new RegExp(@get('filter'), 'i'))
-  #  ).property('filter')
     filterBinding: 'Travis.filterWith'
     classNameBindings: ["highlighted"]
     messageBinding: 'event.message'
@@ -143,7 +140,8 @@ Travis.EventDetailsView = Ember.View.extend
 
 Travis.FilterView = Em.TextField.extend
   filter: (->
-    Travis.set('filterWith', @get('value'))
+    regexp = new RegExp(@get('value'), 'i')
+    Travis.set('filterWith', regexp)
   ).observes('value')
   placeholder: "filter"
   type: 'search'
