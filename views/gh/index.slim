@@ -18,3 +18,7 @@
     pre.prettyprint.pre-scrollable
       - @events.each do |event|
         = "#{event[:verb].upcase}  #{event[:url]}\n"
+    pre.prettyprint.pre-scrollable
+      - if @resource
+        - @resource.headers.each do |key, value|
+          = "#{key}: #{value}\n" if key.start_with? "x-"

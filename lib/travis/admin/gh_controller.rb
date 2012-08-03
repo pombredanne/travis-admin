@@ -111,8 +111,8 @@ module Travis::Admin
           block.call
         end
 
-        @output = gh[params[:command]]
-        @output = access_key(@output, *params[:key].to_s.split(/\W/))
+        @resource = gh[params[:command]]
+        @output   = access_key(@resource, *params[:key].to_s.split(/\W/))
 
         if @output.respond_to?(:to_hash) and @output["type"] == "file" and @output["encoding"] == "base64" and @output["content"]
           @content = @output["content"].to_s.unpack('m').first

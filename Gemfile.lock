@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: f01ff0648f35f42ac1844b821930c15974fd9f40
+  revision: 8ce57b630ccbf651b36ed711151617b1fcefa637
   branch: master
   specs:
     gh (0.7.3)
@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/sinatra/sinatra.git
-  revision: 9e8677a6c3e5e3f262141bb5713fd3f0a81c94e5
+  revision: 6fed1d70b054009b9bb5bd9904019ea1ffe69f4e
   branch: master
   specs:
     sinatra (1.4.0)
