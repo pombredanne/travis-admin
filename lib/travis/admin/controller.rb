@@ -2,12 +2,21 @@ require 'sinatra/base'
 require 'redcarpet'
 require 'slim'
 
+require 'travis/sso'
 require 'travis/admin/helpers'
 
 module Travis::Admin
   class Controller < Sinatra::Base
-    set controllers: [], session: true, static: false, title: nil, show_exceptions: :after_handler
+    set controllers:     [],             sessions: true,
+        static:          false,          title:    nil,
+        show_exceptions: :after_handler, ssession_secret: Travis.config.session_secret
+
     helpers Helpers
+    use Travis::SSO, mode: :session, authorized?: -> u { Travis.config.admins.include? u['login'] }
+
+    use Rack::Auth::Basic do |username, password|
+      username == 'travis' and password == Travis.config.password
+    end
 
     def self.prefix
       @prefix ||= name[/[^:]+(?=Controller$)/].split(/(?=[A-Z])/).map { |e| "/#{e.downcase}" }.join

@@ -48,6 +48,14 @@ GIT
       sidekiq (~> 2.8.0)
 
 GIT
+  remote: git://github.com/travis-ci/travis-sso.git
+  revision: 7d5bc6ee2e7336c973734ec28f60e099fb98fda1
+  specs:
+    travis-sso (0.0.1)
+      multi_json
+      rack
+
+GIT
   remote: git://github.com/travis-ci/travis-support.git
   revision: 6eb091cd4be5891cfd2e1d5b64b0e6754a798304
   specs:
@@ -211,4 +219,5 @@ DEPENDENCIES
   thin
   travis-core!
   travis-sidekiqs!
+  travis-sso!
   travis-support!
