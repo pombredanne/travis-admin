@@ -1,3 +1,0 @@
-var ENV = window.ENV = {}
-ENV.CP_DEFAULT_CACHEABLE = true
-ENV.VIEW_PRESERVES_CONTEXT = true
