@@ -1,4 +1,1 @@
-config/production
-config/development
-*.dump
-*.rdb
+config/travis.yml

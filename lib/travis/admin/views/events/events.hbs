@@ -1,0 +1,31 @@
+<div id="events">
+  <div class="tools">
+    {{view Travis.FilterView}}
+    {{view Travis.PauseButton}}
+  </div>
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+      {{#collection Travis.GroupsList}}
+        <a class="title" {{action "toggleEvents" on="click"}}>
+          {{view.group.title}} ({{view.count}})
+        </a>
+        {{#collection Travis.EventsList contentBinding="view.group.events"}}
+          <a {{action "showDetails"}} class="message">{{view.message}}</a>
+        {{/collection}}
+      {{/collection}}
+
+      <div class="span8 details">
+        {{#view Travis.EventDetailsView}}
+          {{#if view.event}}
+            <strong>{{view.title}}</strong>
+            <a href="#" class="btn" {{action "openPayloadInNewWindow" on="click"}}>Open in new window</a>
+            {{#view Travis.PayloadView payloadBinding="view.payload"}}
+              <pre class="prettyprint linenums lang-js pre-scrollable"></pre>
+            {{/view}}
+          {{/if}}
+        {{/view}}
+      </div>
+    </div>
+  </div>
+</div>

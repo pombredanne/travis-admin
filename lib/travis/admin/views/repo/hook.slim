@@ -1,0 +1,70 @@
+- if hook['new']
+  .span12
+    == slim :details
+
+- service = service_for hook
+
+.span4
+  form method='post'
+    input type='hidden' name='token' value=@token
+    input type='hidden' name='name' value=hook['name']
+    - if hook['new']
+      input type='hidden' name='repo_name' value=@repo_name
+      input type='hidden' name='return_to' value=params[:return_to]
+    - else
+      input type='hidden' name='hook' value=hook['_links']['self']['href']
+      input type='hidden' name='return_to' value=request.fullpath
+    .row
+      .span2
+        h3= service[:title]
+      .span2
+        - unless hook['new']
+          a.pull-right.btn-mini.btn-info href="#{hook['_links']['self']['href']}?access_token=#{@token}" ##{hook['id']}
+    - unless hook['new']
+      .row
+        .span4
+          .alert class=alert_for_status(hook['last_response']['status'])
+            strong Last Response: 
+            - if hook['last_response']['message'].to_s.empty?
+              = hook['last_response']['status'].gsub(/^ok$/, 'OK')
+            - else
+              = hook['last_response']['message']
+    - if hook['config']
+      .row
+        .span4
+          - service[:schema].each do |type, key|
+            .row
+              .span2
+                label for="config[#{key}]"= key.split('_').map(&:capitalize).join(" ").gsub(/ssl|url/i) { |s| s.upcase }
+              .span2
+                - if type == 'boolean'
+                  select.span2 name="config[#{key}]"
+                    option selected=hook['config'][key].to_i==1 value=1 On
+                    option selected=hook['config'][key].to_i==0 value=0 Off
+                - elsif hook['name'] != 'travis' and key == 'password' || key == 'token' || key == 'secret'
+                  input.span2 name="config[#{key}]" value=hook['config'][key] type='password'
+                - else
+                  input.span2 name="config[#{key}]" value=hook['config'][key]
+    .row
+      - service[:events].each do |event|
+        .span2
+          label.checkbox
+            input type="checkbox" name="events[]" checked=hook['events'].include?(event) value=event <tt>#{event}</tt> events
+    .row
+      .span1
+        label.checkbox
+          input type="checkbox" name="active" checked=hook['active'] active
+      .span3
+        .pull-right
+          label
+            - if hook['new']
+              input.btn.btn-mini.btn-inverse type='submit' value="Create" formaction=url('/create_hook')
+            - else
+              .btn-toolbar
+                .btn-group
+                  input.btn.btn-mini type='submit' value="Convert" formaction=url('/convert_hook') formnovalidate="formnovalidate" disabled=true
+                  input.btn.btn-mini type='submit' value="Test" formaction=url('/test_hook') formnovalidate="formnovalidate"
+                  input.btn.btn-mini.btn-inverse type='submit' value="Apply" formaction=url('/update_hook') disabled=hook['config'].nil?
+                .btn-group
+                  input.btn.btn-mini.btn-danger type='submit' value="Delete" formaction=url('/delete_hook') formnovalidate="formnovalidate"
+  p &nbsp;

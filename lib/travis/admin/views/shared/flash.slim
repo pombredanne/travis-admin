@@ -1,0 +1,5 @@
+.row
+  .span12
+    div class="alert alert-#{klass}"
+      button.close data-dismiss="alert" x
+      == markdown(message).gsub(/^<p>(.?*)<\/p>/, '\1')
