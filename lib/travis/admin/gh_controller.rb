@@ -105,7 +105,7 @@ module Travis::Admin
       @events = []
 
       if params[:command] and not params[:command].empty?
-        gh = params[:user].to_s.empty? ? GH.with({}) : as_user(params[:user])
+        gh = params[:user].to_s.empty? ? GH::DefaultStack.build : as_user(params[:user])
         gh.instrumenter = proc do |event, payload, &block|
           @events << payload if event == "http.gh"
           block.call
