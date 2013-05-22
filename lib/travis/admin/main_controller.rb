@@ -1,8 +1,8 @@
 require 'travis/admin/controller'
 
 module Travis::Admin
-  class MainController < Travis::Admin::Controller
-    set :prefix, '/'
+  class MainController < Controller
+    set prefix: '/'
 
     get '/' do
       redirect to(RepoController)

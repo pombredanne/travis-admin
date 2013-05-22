@@ -1,2 +1,2 @@
 require 'travis/admin'
-run Travis::Admin.new
+run Travis::Admin

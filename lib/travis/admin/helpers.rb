@@ -7,48 +7,30 @@ module Travis::Admin
       CGI.escapeHTML(string)
     end
 
-    def db
-      env['travis.db']
-    end
-
-    def db_name
-      env['travis.db_name']
-    end
-
-    def redis
-      env['travis.redis']
-    end
-
     def active?(controller)
       prefix = controller.prefix.split('/')
-      path   = env['travis.path_info'].split('/')
+      path   = request.path.split('/')
       prefix.zip(path).all? { |a,b| a == b }
     end
 
     # Allows things like `redirect to(RepoController)`.
-    def uri(addr, *args)
+    def uri(addr, absolute = true, add_script_name = true)
       return super unless addr.respond_to? :prefix
-      env['travis.asset_controller'].uri(addr.prefix, *args)
+      uri(addr.prefix, absolute, false)
     end
 
     alias url uri
     alias to uri
 
-    def gh
-      @gh ||= GH::DefaultStack.build
+    def as_user(name, &block)
+      user   = User.find_by_login!(name)
+      @token = user.github_oauth_token
+      Travis::Github.authenticated(user, &block)
     end
 
-    def with_token(token)
-      flash :error, '**Could not access GitHub**:  We do not have the GitHub token.' unless token
-      @gh = GH::DefaultStack.build(token: @token = token)
-    end
-
-    def as_user(login)
-      result = db[:users].first(login: login)
-      flash :error, '**Could not access GitHub**: User not known to Travis!' unless result
-      with_token result[:github_oauth_token]
-    rescue Sequel::DatabaseDisconnectError
-      retry
+    def with_token(token, &block)
+      @token = token
+      GH.with(token: token, &block)
     end
 
     def flash(klass, message = nil)

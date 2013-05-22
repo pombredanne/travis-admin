@@ -26,11 +26,6 @@ html
               li class="#{"active" if active? controller}"
                  a href=url(controller) = controller.title
 
-          form.navbar-form.pull-right
-            select name='db' onchange="document.location.href = '/' + this.value + '#{env['travis.path_info']}'"
-              - settings.databases.each_key do |db|
-                option value=db selected=db_name==db Travis #{db.to_s.split("_").map(&:capitalize).join(" ").gsub(/Ci/, 'CI')}
-
     .container#page
       == @flash.to_s
       == yield

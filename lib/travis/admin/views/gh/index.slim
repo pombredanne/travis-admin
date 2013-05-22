@@ -1,7 +1,7 @@
 .row
   .span12
     form.well.form-inline method="get" action=url("/")
-      input.span1 type="text" name="user" pattern="\w+" placeholder="user" value=params[:user]
+      input.span1 type="text" name="user" placeholder="user" value=params[:user]
       input.span5 type="text" name="command" placeholder="resource (required)" value=params[:command] required="required"
       input.span5 type="text" name="key" placeholder="key (separate by space or something)" value=params[:key]
       input.span1.offset4.btn.btn-primary type="submit" value="run"

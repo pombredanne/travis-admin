@@ -9,7 +9,7 @@ p
       input type='hidden' name='repo_name' value=@repo_name
       input type='hidden' name='return_to' value=request.fullpath
       select name='name'
-        - settings.services.each do |name, service|
+        - Travis::Admin::Services.each do |name, service|
           option value=name selected=name=='web' = service[:title]
       input.btn.btn-inverse type='submit' value='Add'
 
