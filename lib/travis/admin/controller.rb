@@ -1,3 +1,4 @@
+require 'rack/ssl'
 require 'sinatra/base'
 require 'redcarpet'
 require 'slim'
@@ -12,6 +13,8 @@ module Travis::Admin
         show_exceptions: :after_handler, ssession_secret: Travis.config.session_secret
 
     helpers Helpers
+
+    use Rack::SSL if production?
     use Travis::SSO, mode: :session, authorized?: -> u { Travis.config.admins.include? u['login'] }
 
     use Rack::Auth::Basic do |username, password|

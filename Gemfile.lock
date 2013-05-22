@@ -212,6 +212,7 @@ DEPENDENCIES
   gh!
   pg
   pry
+  rack-ssl
   redcarpet
   rerun
   sinatra!

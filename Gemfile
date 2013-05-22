@@ -15,6 +15,7 @@ group :server do
   gem 'thin'
   gem 'slim', '~> 1.3'
   gem 'redcarpet'
+  gem 'rack-ssl'
 end
 
 group :console do
